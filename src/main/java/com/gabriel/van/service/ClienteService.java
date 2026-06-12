@@ -17,5 +17,9 @@ public class ClienteService {
         return repository.save(cliente);
     };
 
+    public boolean emailNaoExiste(String email){
+        //retorna true se o email ja existe
+        return repository.findByEmail(email).isPresent();
+    };
     
 }
