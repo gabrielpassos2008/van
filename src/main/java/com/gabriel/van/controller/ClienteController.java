@@ -32,7 +32,7 @@ public class ClienteController {
         }
         Cliente cientecriado = clienteService.cadastrarCliente(cliente);
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.CREATED)
                 .body(cientecriado);
     }
 
