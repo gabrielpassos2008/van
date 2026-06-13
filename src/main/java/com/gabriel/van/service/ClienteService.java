@@ -30,6 +30,6 @@ public class ClienteService {
 
     public void deletarCLientePorId(Long id){
         repository.deleteById(id);
-    };
+    }; 
     
 }
