@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 @RestController
 public class ClienteController {
     private final ClienteService clienteService;
@@ -21,7 +23,7 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
-    @PostMapping("/criarUsuario")
+    @PostMapping("/criarCliente")
     public ResponseEntity<?> postCriarUsuario(@RequestBody Cliente cliente) {
         if (clienteService.emailNaoExiste(cliente.getEmail())) {
             return ResponseEntity
@@ -34,17 +36,33 @@ public class ClienteController {
                 .body(cientecriado);
     }
 
-    @GetMapping("/pesquisarUsuario/{id}")
+    @GetMapping("/pesquisarCliente/{id}")
     public ResponseEntity<?> getPesquisarUsario(@PathVariable Long id) {
         Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
 
         if (clientePesquisa.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(clientePesquisa);
+            return ResponseEntity.status(HttpStatus.OK).body(clientePesquisa);
         }
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body("usuario do " + id + " nao existente no sistema");
         // return clienteService.pesquisarClientePorId(id);
+    }
+
+    @DeleteMapping("/excluirCliente/{id}")
+    public ResponseEntity<?> deleteDeletarCliente(@PathVariable Long id) {
+        Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
+
+        if (clientePesquisa.isPresent()) {
+            clienteService.deletarCLientePorId(id);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("cliente deletado com sucesso!!");
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("usuario do " + id + " nao existente no sistema");
     }
 
 }
