@@ -11,4 +11,5 @@ import com.gabriel.van.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     Optional<Cliente> findByEmail(String email);
+    
 }

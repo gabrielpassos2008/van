@@ -1,5 +1,7 @@
 package com.gabriel.van.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.gabriel.van.model.Cliente;
@@ -21,5 +23,9 @@ public class ClienteService {
         //retorna true se o email ja existe
         return repository.findByEmail(email).isPresent();
     };
+    
+    public Optional<Cliente> pesquisarClientePorId(Long id){
+        return repository.findById(id);
+    }; 
     
 }
