@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
+
 public class ClienteController {
     private final ClienteService clienteService;
 
@@ -23,7 +26,7 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
-    @PostMapping("/criarCliente")
+    @PostMapping("/criarcliente")
     public ResponseEntity<?> postCriarUsuario(@RequestBody Cliente cliente) {
         if (clienteService.emailNaoExiste(cliente.getEmail())) {
             return ResponseEntity
@@ -36,7 +39,7 @@ public class ClienteController {
                 .body(cientecriado);
     }
 
-    @GetMapping("/pesquisarCliente/{id}")
+    @GetMapping("/pesquisarcliente/{id}")
     public ResponseEntity<?> getPesquisarUsario(@PathVariable Long id) {
         Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
 
@@ -49,7 +52,7 @@ public class ClienteController {
         // return clienteService.pesquisarClientePorId(id);
     }
 
-    @DeleteMapping("/excluirCliente/{id}")
+    @DeleteMapping("/excluircliente/{id}")
     public ResponseEntity<?> deleteDeletarCliente(@PathVariable Long id) {
         Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
 
@@ -63,6 +66,17 @@ public class ClienteController {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body("usuario do " + id + " nao existente no sistema");
+    }
+
+    @PutMapping("editarcliente/{id}")
+    public ResponseEntity<?> putEditarCliente(@PathVariable Long id) {
+        Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
+        
+        if (clientePesquisa.isPresent()) {
+            Cliente clienteNovo = clienteService.atualizarCliente(id, clientePesquisa.get());
+            return ResponseEntity.status(HttpStatus.OK).body("usuario editado com sucesso!" + clienteNovo);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario do " + id + " nao existente no sistema");
     }
 
 }
