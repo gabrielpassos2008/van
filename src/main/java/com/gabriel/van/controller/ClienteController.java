@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gabriel.van.model.Cliente;
 import com.gabriel.van.service.ClienteService;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 
 @RestController
@@ -51,6 +54,17 @@ public class ClienteController {
                 .body("usuario do " + id + " nao existente no sistema");
         // return clienteService.pesquisarClientePorId(id);
     }
+
+    @GetMapping("/listarclientes")
+    public ResponseEntity<?> getListarCliente() {
+        List<Cliente> listaClientes = clienteService.retornarTodosCliente();
+        if (!listaClientes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(listaClientes);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("nao existe cliente cadastrado");
+    }
+    
 
     @DeleteMapping("/excluircliente/{id}")
     public ResponseEntity<?> deleteDeletarCliente(@PathVariable Long id) {
