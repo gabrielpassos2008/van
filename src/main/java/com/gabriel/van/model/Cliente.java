@@ -22,6 +22,7 @@ public class Cliente {
     private Long id;
     @Size(min = 8, max = 200)
     private String nome;
+    @Size(min = 8, max = 200)
     private String email;
     @NotBlank
     @Size(min = 8, max = 20)
