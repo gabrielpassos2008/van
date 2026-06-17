@@ -69,11 +69,11 @@ public class ClienteController {
     }
 
     @PutMapping("editarcliente/{id}")
-    public ResponseEntity<?> putEditarCliente(@PathVariable Long id) {
+    public ResponseEntity<?> putEditarCliente(@PathVariable Long id , @RequestBody Cliente clienteAntigo) {
         Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
         
         if (clientePesquisa.isPresent()) {
-            Cliente clienteNovo = clienteService.atualizarCliente(id, clientePesquisa.get());
+            Cliente clienteNovo = clienteService.atualizarCliente(id, clienteAntigo);
             return ResponseEntity.status(HttpStatus.OK).body("usuario editado com sucesso!" + clienteNovo);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario do " + id + " nao existente no sistema");
