@@ -20,7 +20,7 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Size(min = 8, max = 200)
     private String nome;
     private String email;
     @NotBlank
