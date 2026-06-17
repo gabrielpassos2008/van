@@ -1,5 +1,6 @@
 package com.gabriel.van.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -45,6 +46,10 @@ public class ClienteService {
             // Como o objeto possui um ID que já existe no banco,
             // o save() fará um UPDATE e não um INSERT. 
         return repository.save(clienteNovo);
+    };
+
+    public List<Cliente> retornarTodosCliente(){
+        return repository.findAll();
     };
 
 }
