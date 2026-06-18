@@ -2,6 +2,8 @@ package com.gabriel.van.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gabriel.van.dto.ClienteDTO;
+import com.gabriel.van.dto.ClienteResponseDTO;
 import com.gabriel.van.model.Cliente;
 import com.gabriel.van.service.ClienteService;
 
@@ -17,9 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
-
 @RestController
 
 public class ClienteController {
@@ -30,13 +29,13 @@ public class ClienteController {
     }
 
     @PostMapping("/criarcliente")
-    public ResponseEntity<?> postCriarUsuario(@RequestBody Cliente cliente) {
-        if (clienteService.emailNaoExiste(cliente.getEmail())) {
+    public ResponseEntity<?> postCriarUsuario(@RequestBody ClienteDTO dto) {
+        if (clienteService.emailNaoExiste(dto.getEmail())) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Email já cadastrado!");
         }
-        Cliente cientecriado = clienteService.cadastrarCliente(cliente);
+        ClienteResponseDTO cientecriado = clienteService.cadastrarCliente(dto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(cientecriado);
@@ -64,7 +63,6 @@ public class ClienteController {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("nao existe cliente cadastrado");
     }
-    
 
     @DeleteMapping("/excluircliente/{id}")
     public ResponseEntity<?> deleteDeletarCliente(@PathVariable Long id) {
@@ -83,9 +81,9 @@ public class ClienteController {
     }
 
     @PutMapping("editarcliente/{id}")
-    public ResponseEntity<?> putEditarCliente(@PathVariable Long id , @RequestBody Cliente clienteAntigo) {
+    public ResponseEntity<?> putEditarCliente(@PathVariable Long id, @RequestBody Cliente clienteAntigo) {
         Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
-        
+
         if (clientePesquisa.isPresent()) {
             Cliente clienteNovo = clienteService.atualizarCliente(id, clienteAntigo);
             return ResponseEntity.status(HttpStatus.OK).body("usuario editado com sucesso!" + clienteNovo);
