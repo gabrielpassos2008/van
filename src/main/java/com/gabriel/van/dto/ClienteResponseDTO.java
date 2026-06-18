@@ -12,7 +12,7 @@ import lombok.Setter;
 
 // o response serve para devolver dados ao usuario.
 // senha nao esta aqui pq é dados sensivel.
-public class ClienteResposeDTO {
+public class ClienteResponseDTO {
     private Long id;
     private String nome;
     private String email;

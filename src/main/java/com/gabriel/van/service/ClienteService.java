@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.gabriel.van.dto.ClienteDTO;
+import com.gabriel.van.dto.ClienteResponseDTO;
 import com.gabriel.van.model.Cliente;
 import com.gabriel.van.repository.ClienteRepository;
 
@@ -17,12 +19,23 @@ public class ClienteService {
         this.repository = repository;
     }
 
-    public Cliente cadastrarCliente(Cliente cliente) {
-        return repository.save(cliente);
+    public ClienteResponseDTO cadastrarCliente(ClienteDTO dto) {
+        Cliente cliente = new Cliente();
+
+        cliente.setNome(dto.getNome());
+        cliente.setEmail(dto.getEmail());
+        cliente.setSenha(dto.getSenha());
+
+        Cliente salvo = repository.save(cliente);
+
+        return new ClienteResponseDTO(
+                salvo.getId(),
+                salvo.getNome(),
+                salvo.getEmail());
     };
 
     public boolean emailNaoExiste(String email) {
-        // retorna true se o email ja existe
+        // retorna true se o email ja existe no banco
         return repository.findByEmail(email).isPresent();
     };
 
@@ -34,21 +47,21 @@ public class ClienteService {
         repository.deleteById(id);
     };
 
-    public Cliente atualizarCliente(Long id, Cliente dadosClienteNovo){
+    public Cliente atualizarCliente(Long id, Cliente dadosClienteNovo) {
         Cliente clienteNovo = repository.findById(id)
-            .orElseThrow();
-            // Atualiza os dados do cliente encontrado
-            // usando os dados recebidos na requisição.
+                .orElseThrow();
+        // Atualiza os dados do cliente encontrado
+        // usando os dados recebidos na requisição.
         clienteNovo.setEmail(dadosClienteNovo.getEmail());
         clienteNovo.setNome(dadosClienteNovo.getNome());
-        clienteNovo.setSenha(dadosClienteNovo.getSenha());   
-            
-            // Como o objeto possui um ID que já existe no banco,
-            // o save() fará um UPDATE e não um INSERT. 
+        clienteNovo.setSenha(dadosClienteNovo.getSenha());
+
+        // Como o objeto possui um ID que já existe no banco,
+        // o save() fará um UPDATE e não um INSERT.
         return repository.save(clienteNovo);
     };
 
-    public List<Cliente> retornarTodosCliente(){
+    public List<Cliente> retornarTodosCliente() {
         return repository.findAll();
     };
 

@@ -9,11 +9,9 @@ import com.gabriel.van.model.Cliente;
 //import jakarta.transaction.Transactional;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    Optional<Cliente> findByEmail(String email);
+  Optional<Cliente> findByEmail(String email);
 
-
-  //  @Transactional
- //   void deleteById1(Long id);
-
+  // @Transactional
+  // void deleteById1(Long id);
 
 }
