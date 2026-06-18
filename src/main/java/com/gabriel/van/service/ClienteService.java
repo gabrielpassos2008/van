@@ -39,8 +39,13 @@ public class ClienteService {
         return repository.findByEmail(email).isPresent();
     };
 
-    public Optional<Cliente> pesquisarClientePorId(Long id) {
-        return repository.findById(id);
+    public ClienteResponseDTO pesquisarClientePorId(Long id) {
+        Cliente clientePesquisa = repository.findById(id).get();
+
+        return new ClienteResponseDTO(
+                clientePesquisa.getId(),
+                clientePesquisa.getNome(),
+                clientePesquisa.getEmail());
     };
 
     public void deletarCLientePorId(Long id) {
