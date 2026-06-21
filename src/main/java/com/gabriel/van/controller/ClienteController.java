@@ -63,12 +63,12 @@ public class ClienteController {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("nao existe cliente cadastrado");
     }
-/*
+
     @DeleteMapping("/excluircliente/{id}")
     public ResponseEntity<?> deleteDeletarCliente(@PathVariable Long id) {
-        Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
+        ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
 
-        if (clientePesquisa.isPresent()) {
+        if (clientePesquisa != null) {
             clienteService.deletarCLientePorId(id);
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -79,17 +79,17 @@ public class ClienteController {
                 .status(HttpStatus.NOT_FOUND)
                 .body("usuario do " + id + " nao existente no sistema");
     }
-*/
-/*
+
+
     @PutMapping("editarcliente/{id}")
     public ResponseEntity<?> putEditarCliente(@PathVariable Long id, @RequestBody Cliente clienteAntigo) {
-        Optional<Cliente> clientePesquisa = clienteService.pesquisarClientePorId(id);
+        ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
 
-        if (clientePesquisa.isPresent()) {
+        if (clientePesquisa != null) {
             Cliente clienteNovo = clienteService.atualizarCliente(id, clienteAntigo);
             return ResponseEntity.status(HttpStatus.OK).body("usuario editado com sucesso!" + clienteNovo);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario do " + id + " nao existente no sistema");
     }
-*/
+
 }
