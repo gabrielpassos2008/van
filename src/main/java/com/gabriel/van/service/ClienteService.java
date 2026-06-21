@@ -1,6 +1,7 @@
 package com.gabriel.van.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -39,12 +40,16 @@ public class ClienteService {
     };
 
     public ClienteResponseDTO pesquisarClientePorId(Long id) {
-        Cliente clientePesquisa = repository.findById(id).get();
+        Optional<Cliente> clientePesquisa = repository.findById(id);
 
-        return new ClienteResponseDTO(
-                clientePesquisa.getId(),
-                clientePesquisa.getNome(),
-                clientePesquisa.getEmail());
+        if (clientePesquisa.isPresent()) {
+            Cliente cliente = clientePesquisa.get();    
+            return new ClienteResponseDTO(
+                    cliente.getId(),
+                    cliente.getNome(),
+                    cliente.getEmail());            
+        }
+        return null;
     };
 
     public void deletarCLientePorId(Long id) {
