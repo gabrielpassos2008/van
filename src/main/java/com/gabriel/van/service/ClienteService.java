@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gabriel.van.dto.ClienteDTO;
 import com.gabriel.van.dto.ClienteResponseDTO;
+import com.gabriel.van.exceptions.EmailJaExistenteExceptions;
 import com.gabriel.van.model.Cliente;
 import com.gabriel.van.repository.ClienteRepository;
 
@@ -42,14 +43,14 @@ public class ClienteService {
     public ClienteResponseDTO pesquisarClientePorId(Long id) {
         Optional<Cliente> clientePesquisa = repository.findById(id);
 
-        if (clientePesquisa.isPresent()) {
-            Cliente cliente = clientePesquisa.get();    
-            return new ClienteResponseDTO(
-                    cliente.getId(),
-                    cliente.getNome(),
-                    cliente.getEmail());            
+        if (clientePesquisa.isEmpty()) {
+            throw new EmailJaExistenteExceptions();
         }
-        return null;
+        Cliente cliente = clientePesquisa.get();    
+        return new ClienteResponseDTO(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getEmail());            
     };
 
     public void deletarCLientePorId(Long id) {
