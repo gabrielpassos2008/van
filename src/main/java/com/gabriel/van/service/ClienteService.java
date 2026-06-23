@@ -21,6 +21,9 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO cadastrarCliente(ClienteDTO dto) {
+        // ajustar para validar se email ja existe no banco para nao poder cadastar
+
+
         Cliente cliente = new Cliente();
 
         cliente.setNome(dto.getNome());
