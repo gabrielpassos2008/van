@@ -38,14 +38,19 @@ public class ClienteService {
                 salvo.getEmail());
     };
 
-    public boolean emailNaoExiste(String email) {
+    public boolean emailJaExiste(String email) {
         // retorna true se o email ja existe no banco
-        return repository.findByEmail(email).isPresent();
+        boolean existe = repository.findByEmail(email).isPresent();
+        if (existe){
+            throw new EmailJaExistenteExceptions();
+        }
+        return existe;
     };
 
     public ClienteResponseDTO pesquisarClientePorId(Long id) {
         Optional<Cliente> clientePesquisa = repository.findById(id);
-
+        // ajuste
+        // falta trocar a Exceptions, criar uma para um cliente nao existente
         if (clientePesquisa.isEmpty()) {
             throw new EmailJaExistenteExceptions();
         }
