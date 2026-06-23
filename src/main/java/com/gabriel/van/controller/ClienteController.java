@@ -40,12 +40,9 @@ public class ClienteController {
     public ResponseEntity<?> getPesquisarUsario(@PathVariable Long id) {
         ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
 
-        if (clientePesquisa != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(clientePesquisa);
-        }
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body("usuario do " + id + " nao existente no sistema");
+                .status(HttpStatus.OK)
+                .body(clientePesquisa);
     }
 
     @GetMapping("/listarclientes")

@@ -3,6 +3,7 @@ package com.gabriel.van.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.gabriel.van.exceptions.ClienteNaoEncontradoException;
 import org.springframework.stereotype.Service;
 
 import com.gabriel.van.dto.ClienteDTO;
@@ -23,7 +24,9 @@ public class ClienteService {
     public ClienteResponseDTO cadastrarCliente(ClienteDTO dto) {
         // ajustar para validar se email ja existe no banco para nao poder cadastar
 
+        if (emailJaExiste(dto.getEmail())){
 
+        }
         Cliente cliente = new Cliente();
 
         cliente.setNome(dto.getNome());
@@ -52,7 +55,7 @@ public class ClienteService {
         // ajuste
         // falta trocar a Exceptions, criar uma para um cliente nao existente
         if (clientePesquisa.isEmpty()) {
-            throw new EmailJaExistenteExceptions();
+            throw new ClienteNaoEncontradoException();
         }
         Cliente cliente = clientePesquisa.get();    
         return new ClienteResponseDTO(
