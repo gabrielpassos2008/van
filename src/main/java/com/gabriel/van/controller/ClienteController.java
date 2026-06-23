@@ -29,15 +29,11 @@ public class ClienteController {
 
     @PostMapping("/criarcliente")
     public ResponseEntity<?> postCriarUsuario(@RequestBody ClienteDTO dto) {
-        if (clienteService.emailNaoExiste(dto.getEmail())) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Email já cadastrado!");
-        }
-        ClienteResponseDTO cientecriado = clienteService.cadastrarCliente(dto);
+        ClienteResponseDTO clienteCriado = clienteService.cadastrarCliente(dto);
+
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(cientecriado);
+                .status(HttpStatus.OK)
+                .body(clienteCriado);
     }
 
     @GetMapping("/pesquisarcliente/{id}")
@@ -50,7 +46,6 @@ public class ClienteController {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body("usuario do " + id + " nao existente no sistema");
-        // return clienteService.pesquisarClientePorId(id);
     }
 
     @GetMapping("/listarclientes")
