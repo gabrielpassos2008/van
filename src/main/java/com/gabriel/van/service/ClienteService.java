@@ -68,8 +68,12 @@ public class ClienteService {
     };
 
     public Cliente atualizarCliente(Long id, Cliente dadosClienteNovo) {
-        Cliente clienteNovo = repository.findById(id)
-                .orElseThrow();
+        Optional<Cliente> clientePesquisa = repository.findById(id);
+
+        if (clientePesquisa.isEmpty()){
+            throw new ClienteNaoEncontradoException();
+        }
+        Cliente clienteNovo = clientePesquisa.get();
         // Atualiza os dados do cliente encontrado
         // usando os dados recebidos na requisição.
         clienteNovo.setEmail(dadosClienteNovo.getEmail());
@@ -82,7 +86,12 @@ public class ClienteService {
     };
 
     public List<Cliente> retornarTodosCliente() {
-        return repository.findAll();
+        List<Cliente> listaCompleta = repository.findAll();
+
+        if (listaCompleta.isEmpty()){
+            throw new ClienteNaoEncontradoException("sem usuario para cadastrar");
+        }
+        return listaCompleta;
     };
 
 }
