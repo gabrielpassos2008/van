@@ -25,7 +25,7 @@ public class ClienteService {
         // ajustar para validar se email ja existe no banco para nao poder cadastar
 
         if (emailJaExiste(dto.getEmail())){
-
+            throw new EmailJaExistenteExceptions();
         }
         Cliente cliente = new Cliente();
 
@@ -52,8 +52,7 @@ public class ClienteService {
 
     public ClienteResponseDTO pesquisarClientePorId(Long id) {
         Optional<Cliente> clientePesquisa = repository.findById(id);
-        // ajuste
-        // falta trocar a Exceptions, criar uma para um cliente nao existente
+        // feito
         if (clientePesquisa.isEmpty()) {
             throw new ClienteNaoEncontradoException();
         }
