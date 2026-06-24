@@ -48,17 +48,16 @@ public class ClienteController {
     @GetMapping("/listarclientes")
     public ResponseEntity<?> getListarCliente() {
         List<Cliente> listaClientes = clienteService.retornarTodosCliente();
-        if (!listaClientes.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(listaClientes);
-        }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("nao existe cliente cadastrado");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(listaClientes);
     }
 
     @DeleteMapping("/excluircliente/{id}")
     public ResponseEntity<?> deleteDeletarCliente(@PathVariable Long id) {
         ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
-
+        // falta adicionar a exceção na service
         if (clientePesquisa != null) {
             clienteService.deletarCLientePorId(id);
             return ResponseEntity
@@ -76,11 +75,12 @@ public class ClienteController {
     public ResponseEntity<?> putEditarCliente(@PathVariable Long id, @RequestBody Cliente clienteAntigo) {
         ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
 
-        if (clientePesquisa != null) {
-            Cliente clienteNovo = clienteService.atualizarCliente(id, clienteAntigo);
-            return ResponseEntity.status(HttpStatus.OK).body("usuario editado com sucesso!" + clienteNovo);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario do " + id + " nao existente no sistema");
+        Cliente clienteNovo = clienteService.atualizarCliente(id, clienteAntigo);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("usuario editado com sucesso!" + clienteNovo);
+
     }
 
 }
