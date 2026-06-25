@@ -64,6 +64,8 @@ public class ClienteService {
     };
 
     public void deletarCLientePorId(Long id) {
+       pesquisarClientePorId(id);
+
         repository.deleteById(id);
     };
 
