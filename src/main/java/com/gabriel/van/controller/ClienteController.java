@@ -56,18 +56,11 @@ public class ClienteController {
 
     @DeleteMapping("/excluircliente/{id}")
     public ResponseEntity<?> deleteDeletarCliente(@PathVariable Long id) {
-        ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
-        // falta adicionar a exceção na service
-        if (clientePesquisa != null) {
-            clienteService.deletarCLientePorId(id);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("cliente deletado com sucesso!!");
-        }
-
+        clienteService.deletarCLientePorId(id);
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("usuario do " + id + " nao existente no sistema");
+                .status(HttpStatus.OK)
+                .body("cliente deletado com sucesso!!");
+
     }
 
 
@@ -79,7 +72,7 @@ public class ClienteController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("usuario editado com sucesso!" + clienteNovo);
+                .body("usuario editado com sucesso!" );
 
     }
 
