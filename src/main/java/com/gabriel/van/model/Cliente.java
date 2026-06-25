@@ -20,11 +20,16 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 8, max = 200)
+
+    @NotBlank(message = "O nome é obrigatória")
+    @Size(min = 8, max = 200, message = "O nome deve ter entre 8 e 200 caracteres")
     private String nome;
-    @Size(min = 8, max = 200)
+
+    @NotBlank(message = "O email é obrigatória")
+    @Size(min = 8, max = 200, message = "O email deve ter entre 8 e 200 caracteres")
     private String email;
-    @NotBlank
-    @Size(min = 8, max = 20)
+
+    @NotBlank(message = "A senha é obrigatória")
+    @Size(min = 8, max = 20, message = "A senha deve ter entre 8 e 20 caracteres")
     private String senha;
 }
