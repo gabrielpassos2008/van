@@ -29,38 +29,54 @@ public class ClienteController {
 
     @PostMapping("/criarcliente")
     public ResponseEntity<?> postCriarUsuario(@RequestBody ClienteDTO dto) {
-        ClienteResponseDTO clienteCriado = clienteService.cadastrarCliente(dto);
-
+        if (clienteService.emailJaExiste(dto.getEmail())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Email já cadastrado!");
+        }
+        ClienteResponseDTO cientecriado = clienteService.cadastrarCliente(dto);
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(clienteCriado);
+                .status(HttpStatus.CREATED)
+                .body(cientecriado);
     }
 
     @GetMapping("/pesquisarcliente/{id}")
     public ResponseEntity<?> getPesquisarUsario(@PathVariable Long id) {
         ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
-
+        
+        if (clientePesquisa != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(clientePesquisa);
+        }
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(clientePesquisa);
+                .status(HttpStatus.BAD_REQUEST)
+                .body("usuario do " + id + " nao existente no sistema");
+        // return clienteService.pesquisarClientePorId(id);
     }
 
     @GetMapping("/listarclientes")
     public ResponseEntity<?> getListarCliente() {
         List<Cliente> listaClientes = clienteService.retornarTodosCliente();
+        if (!listaClientes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(listaClientes);
+        }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(listaClientes);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("nao existe cliente cadastrado");
     }
 
     @DeleteMapping("/excluircliente/{id}")
     public ResponseEntity<?> deleteDeletarCliente(@PathVariable Long id) {
-        clienteService.deletarCLientePorId(id);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("cliente deletado com sucesso!!");
+        ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
 
+        if (clientePesquisa != null) {
+            clienteService.deletarCLientePorId(id);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("cliente deletado com sucesso!!");
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("usuario do " + id + " nao existente no sistema");
     }
 
 
@@ -68,12 +84,11 @@ public class ClienteController {
     public ResponseEntity<?> putEditarCliente(@PathVariable Long id, @RequestBody Cliente clienteAntigo) {
         ClienteResponseDTO clientePesquisa = clienteService.pesquisarClientePorId(id);
 
-        Cliente clienteNovo = clienteService.atualizarCliente(id, clienteAntigo);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("usuario editado com sucesso!" );
-
+        if (clientePesquisa != null) {
+            Cliente clienteNovo = clienteService.atualizarCliente(id, clienteAntigo);
+            return ResponseEntity.status(HttpStatus.OK).body("usuario editado com sucesso!" + clienteNovo);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario do " + id + " nao existente no sistema");
     }
 
 }
