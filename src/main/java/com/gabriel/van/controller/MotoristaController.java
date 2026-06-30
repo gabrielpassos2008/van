@@ -2,8 +2,6 @@ package com.gabriel.van.controller;
 
 import com.gabriel.van.dto.ClienteDTO;
 import com.gabriel.van.dto.ClienteResponseDTO;
-import com.gabriel.van.dto.motorista.MotoristaCreateDTO;
-import com.gabriel.van.model.Cliente;
 import com.gabriel.van.service.ClienteService;
 import com.gabriel.van.service.MotoristaService;
 import org.springframework.http.HttpStatus;
@@ -24,9 +22,14 @@ public class MotoristaController {
         this.clienteService = clienteService;
     }
     @PostMapping("/cadastrarcliente")
-    public ResponseEntity<?> PostCadastrarCliente(@RequestBody ClienteDTO dto){
-        ClienteResponseDTO Cliente = clienteService.cadastrarCliente(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(Cliente);
+    public ResponseEntity<ClienteResponseDTO> PostCadastrarCliente(@RequestBody ClienteDTO dto){
+        ClienteResponseDTO ClienteDto = clienteService.cadastrarCliente(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(ClienteDto);
+    }
 
+    @GetMapping("/pesquisarusuario/{id}")
+    public ResponseEntity<ClienteResponseDTO> getPesquisarUsuario (@PathVariable Long id){
+        ClienteResponseDTO clienteDto = clienteService.pesquisarClientePorId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(clienteDto);
     }
 }
