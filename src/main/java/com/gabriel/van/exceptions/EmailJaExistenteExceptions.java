@@ -9,5 +9,4 @@ public class EmailJaExistenteExceptions extends RuntimeException  {
     public EmailJaExistenteExceptions(String mensagem){
         super(mensagem);
     }
-    
 }
