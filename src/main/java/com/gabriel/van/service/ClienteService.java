@@ -80,7 +80,6 @@ public class ClienteService {
         // usando os dados recebidos na requisição.
         clienteNovo.setEmail(dadosClienteNovo.getEmail());
         clienteNovo.setNome(dadosClienteNovo.getNome());
-        clienteNovo.setSenha(dadosClienteNovo.getSenha());
 
         // Como o objeto possui um ID que já existe no banco,
         // o save() fará um UPDATE e não um INSERT.
