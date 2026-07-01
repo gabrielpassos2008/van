@@ -32,4 +32,5 @@ public class MotoristaController {
         ClienteResponseDTO clienteDto = clienteService.pesquisarClientePorId(id);
         return ResponseEntity.status(HttpStatus.OK).body(clienteDto);
     }
+
 }
